@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Bills{% endblock %}
+
+{% block content %}
+<h1>Bills</h1>
+
+{% if bills %}
+<ul>
+    {% for bill in bills %}
+    <li>{{ bill.description }} - {{ bill.amount }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No bills to show.</p>
+{% endif %}
+
+<form method="POST" action="{{ url_for('bills', group_id=group_id) }}">
+    {{ form.csrf_token }}
+    <div>
+        {{ form.description.label }}
+        {{ form.description(class_="form-control") }}
+    </div>
+    <div>
+        {{ form.amount.label }}
+        {{ form.amount(class_="form-control") }}
+    </div>
+    <button type="submit" class="submit-button">{{ form.submit.label.text }}</button>
+</form>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    <div>{{ message }}</div>
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endwith %}
+
+{% endblock %}

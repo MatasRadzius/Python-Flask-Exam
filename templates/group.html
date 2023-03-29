@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+<h1>Groups</h1>
+
+{% if groups %}
+<ul>
+    {% for group in groups %}
+    {% if group %}
+    <li><a href="{{ url_for('bills', group_id=group.id) }}">{{ group.name }}</a></li>
+    {% endif %}
+    {% endfor %}
+
+</ul>
+{% else %}
+<p>No groups to show.</p>
+{% endif %}
+
+<hr>
+
+<h2>Join Group</h2>
+
+<form method="POST" action="{{ url_for('group') }}">
+    {{ form.csrf_token }}
+    <div>
+        {{ form.group_id.label }}
+        {{ form.group_id(class_="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">{{ form.submit.label.text }}</button>
+</form>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+
+{% endif %}
+{% endwith %}
+{% endblock %}
